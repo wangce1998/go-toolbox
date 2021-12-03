@@ -5,22 +5,22 @@ type XError interface {
 	Message() string
 }
 
-type xError struct {
+type defaultXError struct {
 	code    int
 	message string
 }
 
-func (x xError) Code() int {
+func (x defaultXError) Code() int {
 	return x.code
 }
 
-func (x xError) Message() string {
+func (x defaultXError) Message() string {
 	return x.message
 }
 
-// NewXError 实例xerror
-func NewXError(code int, message string) XError {
-	return &xError{
+// New 实例xerror
+func New(code int, message string) XError {
+	return &defaultXError{
 		code:    code,
 		message: message,
 	}
@@ -28,5 +28,5 @@ func NewXError(code int, message string) XError {
 
 // Wrap 将error包装成xerror
 func Wrap(err error) XError {
-	return NewXError(10000, err.Error())
+	return New(10000, err.Error())
 }
