@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+const Secret = "wangce1998"
+
 type JWTClaims struct {
 	jwt.StandardClaims
 	UserID int64 `json:"user_id"`
