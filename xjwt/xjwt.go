@@ -12,11 +12,17 @@ type JWTClaims struct {
 	UserID int64 `json:"user_id"`
 }
 
-func New(userID int64) *jwt.Token {
+func NewToken(userID int64) *jwt.Token {
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, JWTClaims{
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 2).Unix(),
 		},
 		UserID: userID,
+	})
+}
+
+func Parse(token string, jc *JWTClaims) (*jwt.Token, error) {
+	return jwt.ParseWithClaims(token, jc, func(token *jwt.Token) (interface{}, error) {
+		return []byte(Secret), nil
 	})
 }
