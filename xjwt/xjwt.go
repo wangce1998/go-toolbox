@@ -32,12 +32,12 @@ func TokenToString(token *jwt.Token) (string, error) {
 	return token.SignedString([]byte(Secret))
 }
 
-func Parse(tokenStr string) (*JWTClaims, xerror.XError) {
-	var jc *JWTClaims
+func Parse(tokenStr string) (JWTClaims, xerror.XError) {
+	var jc JWTClaims
 	if len(tokenStr) == 0 {
 		return jc, TokenNotfound
 	}
-	token, err := jwt.ParseWithClaims(tokenStr, jc, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenStr, &jc, func(token *jwt.Token) (interface{}, error) {
 		return []byte(Secret), nil
 	})
 

@@ -15,14 +15,14 @@ type XContext interface {
 	context.Context
 	RequestID() string
 	SetRequestID(id string)
-	Jwt() *xjwt.JWTClaims
-	SetJwtClaims(claims *xjwt.JWTClaims)
+	Jwt() xjwt.JWTClaims
+	SetJwtClaims(claims xjwt.JWTClaims)
 }
 
 type defaultXContext struct {
 	context.Context
 	id  string
-	jwt *xjwt.JWTClaims
+	jwt xjwt.JWTClaims
 }
 
 func (d *defaultXContext) RequestID() string {
@@ -33,11 +33,11 @@ func (d *defaultXContext) SetRequestID(id string) {
 	d.id = id
 }
 
-func (d *defaultXContext) SetJwtClaims(jc *xjwt.JWTClaims) {
+func (d *defaultXContext) SetJwtClaims(jc xjwt.JWTClaims) {
 	d.jwt = jc
 }
 
-func (d *defaultXContext) Jwt() *xjwt.JWTClaims {
+func (d *defaultXContext) Jwt() xjwt.JWTClaims {
 	return d.jwt
 }
 
