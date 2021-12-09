@@ -17,6 +17,7 @@ type XContext interface {
 	RequestID() string
 	SetRequestID(id string)
 	Jwt() xjwt.JWTClaims
+	SetJwtClaims(claims xjwt.JWTClaims)
 }
 
 type defaultXContext struct {
@@ -33,7 +34,7 @@ func (d *defaultXContext) SetRequestID(id string) {
 	d.id = id
 }
 
-func (d *defaultXContext) SwtJwt(jc xjwt.JWTClaims) {
+func (d *defaultXContext) SetJwtClaims(jc xjwt.JWTClaims) {
 	d.jwt = jc
 }
 
