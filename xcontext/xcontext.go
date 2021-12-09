@@ -27,8 +27,11 @@ func New() XContext {
 	}
 }
 
-func Wrap(ctx beego.Context) XContext {
-	xc := ctx.Input.GetData("context").(XContext)
+func Wrap(ctx *beego.Context) XContext {
+	xc, ok := ctx.Input.GetData("context").(XContext)
+	if !ok {
+		xc = New()
+	}
 	return &defaultXContext{
 		Context: xc,
 		id:      xc.RequestID(),
