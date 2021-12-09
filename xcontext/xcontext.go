@@ -9,6 +9,7 @@ import (
 type XContext interface {
 	context.Context
 	RequestID() string
+	SetRequestID(id string)
 }
 
 type defaultXContext struct {
@@ -18,6 +19,10 @@ type defaultXContext struct {
 
 func (d *defaultXContext) RequestID() string {
 	return d.id
+}
+
+func (d *defaultXContext) SetRequestID(id string) {
+	d.id = id
 }
 
 func New() XContext {
