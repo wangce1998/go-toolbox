@@ -4,17 +4,25 @@ import (
 	"context"
 	beego "github.com/beego/beego/v2/server/web/context"
 	uuid "github.com/satori/go.uuid"
+	"github.com/wangce1998/go-toolbox/xjwt"
+)
+
+const (
+	ContextKey = "context"
+	JwtKey     = "jwt"
 )
 
 type XContext interface {
 	context.Context
 	RequestID() string
 	SetRequestID(id string)
+	Jwt() xjwt.JWTClaims
 }
 
 type defaultXContext struct {
 	context.Context
-	id string
+	id  string
+	jwt xjwt.JWTClaims
 }
 
 func (d *defaultXContext) RequestID() string {
@@ -25,6 +33,14 @@ func (d *defaultXContext) SetRequestID(id string) {
 	d.id = id
 }
 
+func (d *defaultXContext) SwtJwt(jc xjwt.JWTClaims) {
+	d.jwt = jc
+}
+
+func (d *defaultXContext) Jwt() xjwt.JWTClaims {
+	return d.jwt
+}
+
 func New() XContext {
 	return &defaultXContext{
 		Context: context.TODO(),
@@ -33,12 +49,17 @@ func New() XContext {
 }
 
 func Wrap(ctx *beego.Context) XContext {
-	xc, ok := ctx.Input.GetData("context").(XContext)
+	xc, ok := ctx.Input.GetData(ContextKey).(XContext)
 	if !ok {
-		xc = New()
+		return New()
+	}
+	jc, ok := ctx.Input.GetData(JwtKey).(xjwt.JWTClaims)
+	if !ok {
+		return New()
 	}
 	return &defaultXContext{
 		Context: xc,
 		id:      xc.RequestID(),
+		jwt:     jc,
 	}
 }
