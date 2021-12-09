@@ -28,9 +28,10 @@ func NewToken(userID int64) *jwt.Token {
 	})
 }
 
-func Parse(tokenStr string, jc *JWTClaims) (*jwt.Token, xerror.XError) {
+func Parse(tokenStr string) (*JWTClaims, xerror.XError) {
+	var jc *JWTClaims
 	if len(tokenStr) == 0 {
-		return nil, TokenNotfound
+		return jc, TokenNotfound
 	}
 	token, err := jwt.ParseWithClaims(tokenStr, jc, func(token *jwt.Token) (interface{}, error) {
 		return []byte(Secret), nil
@@ -39,15 +40,15 @@ func Parse(tokenStr string, jc *JWTClaims) (*jwt.Token, xerror.XError) {
 	if err != nil {
 		if ve, ok := err.(*jwt.ValidationError); ok {
 			if ve.Errors&(jwt.ValidationErrorExpired|jwt.ValidationErrorNotValidYet) != 0 {
-				return token, TokenExpired
+				return jc, TokenExpired
 			} else {
-				return token, xerror.New(TokenInvalid.Code(), err.Error())
+				return jc, xerror.New(TokenInvalid.Code(), err.Error())
 			}
 		}
 	}
 	if !token.Valid {
-		return token, xerror.New(TokenInvalid.Code(), "令牌无效")
+		return jc, xerror.New(TokenInvalid.Code(), "令牌无效")
 	}
 
-	return token, nil
+	return jc, nil
 }
