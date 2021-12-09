@@ -28,6 +28,10 @@ func NewToken(userID int64) *jwt.Token {
 	})
 }
 
+func TokenToString(token *jwt.Token) (string, error) {
+	return token.SignedString([]byte(Secret))
+}
+
 func Parse(tokenStr string) (*JWTClaims, xerror.XError) {
 	var jc *JWTClaims
 	if len(tokenStr) == 0 {

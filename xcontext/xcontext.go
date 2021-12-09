@@ -8,8 +8,7 @@ import (
 )
 
 const (
-	ContextKey = "context"
-	JwtKey     = "jwt"
+	ContextKey = "xcontext"
 )
 
 type XContext interface {
@@ -54,13 +53,10 @@ func Wrap(ctx *beego.Context) XContext {
 	if !ok {
 		return New()
 	}
-	jc, ok := ctx.Input.GetData(JwtKey).(xjwt.JWTClaims)
-	if !ok {
-		return New()
-	}
+
 	return &defaultXContext{
 		Context: xc,
 		id:      xc.RequestID(),
-		jwt:     &jc,
+		jwt:     xc.Jwt(),
 	}
 }
