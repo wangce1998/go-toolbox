@@ -21,7 +21,7 @@ func NewToken(userID int64) *jwt.Token {
 	})
 }
 
-func Parse(token string, jc *JWTClaims) (*jwt.Token, error) {
+func Parse(token string, jc JWTClaims) (*jwt.Token, error) {
 	return jwt.ParseWithClaims(token, jc, func(token *jwt.Token) (interface{}, error) {
 		return []byte(Secret), nil
 	})
