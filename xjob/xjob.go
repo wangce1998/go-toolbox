@@ -1,15 +1,15 @@
 package xjob
 
 import (
-	"github.com/wangce1998/go-toolbox/xcontext"
+	"context"
 )
 
-type JobFunc func(ctx xcontext.XContext) error
+type JobFunc func(ctx context.Context) error
 
 type XJob interface {
 	Name() string
 	Describe() string
-	Run(ctx xcontext.XContext) error
+	Run(ctx context.Context) error
 }
 
 type defaultXJob struct {
@@ -18,7 +18,8 @@ type defaultXJob struct {
 	DoFunc   JobFunc
 }
 
-func (d defaultXJob) Run(ctx xcontext.XContext) error {
+func (d defaultXJob) Run(ctx context.Context) error {
+	// TODO::锁
 	return d.DoFunc(ctx)
 }
 
