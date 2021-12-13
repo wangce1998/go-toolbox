@@ -7,7 +7,7 @@ import (
 type XJob interface {
 	Name() string
 	Describe() string
-	Run(ctx xcontext.XContext) error
+	Run() func(ctx xcontext.XContext)
 }
 
 type defaultXJob struct {
@@ -23,7 +23,7 @@ func (d defaultXJob) Describe() string {
 	return d.describe
 }
 
-func (d defaultXJob) Run(ctx xcontext.XContext) error {
+func (d defaultXJob) Run() func(ctx xcontext.XContext) {
 	panic("待实现的job")
 }
 
