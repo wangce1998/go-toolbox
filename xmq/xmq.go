@@ -9,8 +9,16 @@ import (
 
 var connection *amqp.Connection
 
-func Init(url string) error {
+type Config struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
+}
+
+func Init(config Config) error {
 	if connection == nil || connection.IsClosed() {
+		url := fmt.Sprintf("amqp://%s:%s@%s:%d", config.User, config.Password, config.Host, config.Port)
 		mq, err := amqp.Dial(url)
 		if err != nil {
 			return err
@@ -26,8 +34,8 @@ type XMQ struct {
 	queues     map[string]*Worker
 }
 
-func New(url string) (*XMQ, error) {
-	if err := Init(url); err != nil {
+func New(config Config) (*XMQ, error) {
+	if err := Init(config); err != nil {
 		return nil, err
 	}
 
