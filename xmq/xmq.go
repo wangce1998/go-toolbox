@@ -69,12 +69,7 @@ func (xmq *XMQ) Register(queue string, consumer Consumer, options ...WorkerOptio
 	xmq.queues[queue] = w
 }
 
-func (xmq *XMQ) Start(url string) error {
-	mq, err := amqp.Dial(url)
-	if err != nil {
-		return err
-	}
-	connection = mq
+func (xmq *XMQ) Start() error {
 	for _, worker := range xmq.queues {
 		go worker.Start()
 	}
