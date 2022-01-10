@@ -6,4 +6,5 @@ require (
 	github.com/beego/beego/v2 v2.0.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/satori/go.uuid v1.2.0 // indirect
+	github.com/streadway/amqp v1.0.0 // indirect
 )
