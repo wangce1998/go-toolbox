@@ -83,6 +83,10 @@ type Consumer interface {
 
 type ConsumerDo func(messageID string, messageBody []byte) error
 
+func (do ConsumerDo) Do(messageID string, messageBody []byte) error {
+	return do(messageID, messageBody)
+}
+
 type Worker struct {
 	queue    string
 	consumer Consumer
