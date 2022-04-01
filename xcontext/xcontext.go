@@ -4,7 +4,6 @@ import (
 	"context"
 	beego "github.com/beego/beego/v2/server/web/context"
 	uuid "github.com/satori/go.uuid"
-	"github.com/wangce1998/go-toolbox/xjwt"
 )
 
 const (
@@ -15,14 +14,11 @@ type XContext interface {
 	context.Context
 	RequestID() string
 	SetRequestID(id string)
-	Jwt() xjwt.JWTClaims
-	SetJwtClaims(claims xjwt.JWTClaims)
 }
 
 type defaultXContext struct {
 	context.Context
-	id  string
-	jwt xjwt.JWTClaims
+	id string
 }
 
 func (d *defaultXContext) RequestID() string {
@@ -31,14 +27,6 @@ func (d *defaultXContext) RequestID() string {
 
 func (d *defaultXContext) SetRequestID(id string) {
 	d.id = id
-}
-
-func (d *defaultXContext) SetJwtClaims(jc xjwt.JWTClaims) {
-	d.jwt = jc
-}
-
-func (d *defaultXContext) Jwt() xjwt.JWTClaims {
-	return d.jwt
 }
 
 func New() XContext {
@@ -57,6 +45,5 @@ func Wrap(ctx *beego.Context) XContext {
 	return &defaultXContext{
 		Context: xc,
 		id:      xc.RequestID(),
-		jwt:     xc.Jwt(),
 	}
 }
