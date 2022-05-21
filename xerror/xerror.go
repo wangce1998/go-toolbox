@@ -28,5 +28,9 @@ func New(code int, message string) XError {
 
 // Wrap 将error包装成xerror
 func Wrap(err error) XError {
+	if err == nil {
+		return nil
+	}
+
 	return New(10000, err.Error())
 }
