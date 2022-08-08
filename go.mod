@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/beego/beego/v2 v2.0.1
-	github.com/satori/go.uuid v1.2.0 // indirect
-	github.com/streadway/amqp v1.0.0 // indirect
+	github.com/google/uuid v1.1.1
+	github.com/satori/go.uuid v1.2.0
+	github.com/streadway/amqp v1.0.0
 )
