@@ -1,15 +1,11 @@
 package xjob
 
-import (
-	"context"
-)
-
-type JobFunc func(ctx context.Context) error
+type JobFunc func() error
 
 type XJob interface {
 	Name() string
 	Describe() string
-	Run(ctx context.Context) error
+	Run() error
 }
 
 type defaultXJob struct {
@@ -18,9 +14,8 @@ type defaultXJob struct {
 	DoFunc   JobFunc
 }
 
-func (d defaultXJob) Run(ctx context.Context) error {
-	// TODO::锁
-	return d.DoFunc(ctx)
+func (d defaultXJob) Run() error {
+	return d.DoFunc()
 }
 
 func (d defaultXJob) Name() string {
