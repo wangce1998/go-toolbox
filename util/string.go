@@ -35,3 +35,39 @@ func IntToStrings(arr []int) []string {
 	}
 	return strings
 }
+
+// StringIntersect 求两个字符串切片的交集
+func StringIntersect(a []string, b []string) []string {
+	var inter []string
+	mp := make(map[string]bool)
+	for _, s := range a {
+		if _, ok := mp[s]; !ok {
+			mp[s] = true
+		}
+	}
+	for _, s := range b {
+		if _, ok := mp[s]; ok {
+			inter = append(inter, s)
+		}
+	}
+
+	return inter
+}
+
+// StringDiff 求两个字符串切片的差集
+func StringDiff(a []string, b []string) []string {
+	var diffArray []string
+	temp := map[string]bool{}
+	for _, val := range b {
+		if _, ok := temp[val]; !ok {
+			temp[val] = true
+		}
+	}
+	for _, val := range a {
+		if _, ok := temp[val]; !ok {
+			diffArray = append(diffArray, val)
+		}
+	}
+
+	return diffArray
+}
