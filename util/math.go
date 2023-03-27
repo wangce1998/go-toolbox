@@ -1,8 +1,12 @@
 package util
 
-// subsets 求子集
+import (
+	"math/rand"
+)
+
+// Subsets 求子集
 // @see https://leetcode-cn.com/problems/power-set-lcci/
-func subsets(arr []interface{}) [][]interface{} {
+func Subsets(arr []interface{}) [][]interface{} {
 	var res [][]interface{}
 	res = append(res, []interface{}{})
 	for _, v := range arr {
@@ -14,4 +18,12 @@ func subsets(arr []interface{}) [][]interface{} {
 		}
 	}
 	return res
+}
+
+// RandInt 获取指定范围的随机数
+func RandInt(min, max int) int {
+	if min >= max || min == 0 || max == 0 {
+		return max
+	}
+	return rand.Intn(max-min+1) + min
 }
