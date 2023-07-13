@@ -13,3 +13,11 @@ func MarshalToString(v interface{}) string {
 
 	return string(b)
 }
+
+// ToStrings json字符串转字符串切片
+func ToStrings(str string) []string {
+	var s []string
+	_ = json.Unmarshal([]byte(str), &s)
+	
+	return s
+}
